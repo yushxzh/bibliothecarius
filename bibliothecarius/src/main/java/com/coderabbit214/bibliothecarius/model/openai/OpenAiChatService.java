@@ -106,7 +106,7 @@ public class OpenAiChatService implements ModelInterface {
             chatRequest.setMaxTokens(maxTokens - TokenUtil.getTokens(template));
         }
         OpenAiService openAiService = new OpenAiService(apiKey, Duration.ofSeconds(60));
-        log.info("openai request: {}", JsonUtil.toJson(chatRequest)
+        log.info("openai request: {}", JsonUtil.toJson(chatRequest));
         ChatResult chatCompletion = openAiService.createChatCompletion(chatRequest);
         log.info("openai response: {}", JsonUtil.toJson(chatCompletion));
         List<ChatChoice> choices = chatCompletion.getChoices();
