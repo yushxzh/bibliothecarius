@@ -11,6 +11,7 @@ import com.coderabbit214.bibliothecarius.scene.context.ChatContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * @author Mr_J
  */
+@Slf4j
 @Service
 public class OpenAiChatService implements ModelInterface {
 
@@ -104,7 +106,9 @@ public class OpenAiChatService implements ModelInterface {
             chatRequest.setMaxTokens(maxTokens - TokenUtil.getTokens(template));
         }
         OpenAiService openAiService = new OpenAiService(apiKey, Duration.ofSeconds(60));
+        log.info("openai request: {}", JsonUtil.toJson(chatRequest)
         ChatResult chatCompletion = openAiService.createChatCompletion(chatRequest);
+        log.info("openai response: {}", JsonUtil.toJson(chatCompletion));
         List<ChatChoice> choices = chatCompletion.getChoices();
         for (ChatChoice choice : choices) {
             result.add(choice.getMessage().getContent());

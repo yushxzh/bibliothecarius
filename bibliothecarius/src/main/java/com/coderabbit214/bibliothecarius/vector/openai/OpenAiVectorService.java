@@ -10,6 +10,7 @@ import com.coderabbit214.bibliothecarius.vector.VectorResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Author: Mr_J
  * @Date: 2023/3/20 10:07
  */
+@Slf4j
 @Service
 public class OpenAiVectorService implements VectorInterface {
 
@@ -58,7 +60,9 @@ public class OpenAiVectorService implements VectorInterface {
             EmbeddingRequest embeddingRequest = new EmbeddingRequest();
             embeddingRequest.setInput(t);
             embeddingRequest.setModel(TEXT_EMBEDDING_ADA_002);
+            log.info("embeddingRequest:{}", embeddingRequest);
             EmbeddingResult embeddingResult = openAiService.sentEmbeddings(embeddingRequest);
+            log.info("embeddingResult:{}", embeddingResult);
             List<Embedding> embeddingList = embeddingResult.getData();
             List<Double> embedding = embeddingList.get(0).getEmbedding();
             VectorResult vectorResult = new VectorResult();
