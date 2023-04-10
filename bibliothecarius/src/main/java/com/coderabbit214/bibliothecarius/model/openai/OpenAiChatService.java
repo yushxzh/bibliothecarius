@@ -93,7 +93,12 @@ public class OpenAiChatService implements ModelInterface {
         template = template.replace("${data}", data);
         chatMessage.setContent(template);
         chatMessage.setRole(ChatMessageRole.USER.value());
-        chatRequest.getMessages().add(chatMessage);
+        List<ChatMessage> messages = chatRequest.getMessages();
+        if (messages == null) {
+            messages = new ArrayList<>();
+            chatRequest.setMessages(messages);
+        }
+        messages.add(chatMessage);
         Integer maxTokens = chatRequest.getMaxTokens();
         if (maxTokens != null) {
             chatRequest.setMaxTokens(maxTokens - TokenUtil.getTokens(template));
